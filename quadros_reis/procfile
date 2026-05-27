@@ -1,1 +1,1 @@
-web: cd quadros_reis && python app.py
+web: cd quadros_reis && gunicorn app:app

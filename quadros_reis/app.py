@@ -21,7 +21,7 @@ produtos.append(Roupa("Camiseta Washed Logo", 99.90, 15,
     "Lavagem especial vintage", "P", "Cinza Chumbo", "Camiseta"))
 produtos.append(Roupa("Jaqueta Coach QR", 349.90, 4,
     "Nylon impermeável, forro mesh", "M", "Preto", "Jaqueta"))
-produtos.append(Roupa("Shorts Nylon Tech", 149.90, 10,
+produtos.append(Roupa("Calça Jeans", 149.90, 10,
     "Elástico + cordão, bolso lateral", "M", "Bege", "Shorts"))
 
 

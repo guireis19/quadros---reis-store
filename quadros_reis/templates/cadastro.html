@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Cadastro | QUADROS - REIS{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-bg"></div>
+
+  <div class="auth-card">
+    <h1 class="auth-logo">QUADROS<span>♛</span>REIS</h1>
+    <p class="auth-subtitle">Criar sua conta</p>
+
+    <form method="POST" action="{{ url_for('cadastro') }}">
+
+      <div class="form-group">
+        <label class="form-label">Nome completo</label>
+        <input class="form-input" type="text" name="nome"
+               placeholder="Seu nome" required />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">CPF</label>
+        <input class="form-input" type="text" name="cpf"
+               placeholder="000.000.000-00" required />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">E-mail</label>
+          <input class="form-input" type="email" name="email"
+                 placeholder="seu@email.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefone</label>
+          <input class="form-input" type="text" name="telefone"
+                 placeholder="(00) 00000-0000" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Endereço completo</label>
+        <input class="form-input" type="text" name="endereco"
+               placeholder="Rua, número, bairro, cidade" required />
+      </div>
+
+      <button type="submit" class="btn btn-primary"
+              style="width:100%;justify-content:center;margin-top:.5rem;">
+        Criar conta →
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      Já tem conta? <a href="{{ url_for('login') }}">Entrar</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

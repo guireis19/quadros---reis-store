@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Carrinho | QUADROS - REIS{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1 class="page-title">SEU <span>CARRINHO</span></h1>
+</div>
+
+{% if items %}
+<div class="cart-layout">
+
+  <!-- ITENS -->
+  <div class="cart-items">
+    {% for item in items %}
+    <div class="cart-item">
+
+      <div class="cart-item-img" style="overflow:hidden;">
+        <img
+          src="https://picsum.photos/seed/qr{{ item.produto.get_id() }}{{ item.produto.get_categoria()|lower|replace(' ','') }}/80/100"
+          alt="{{ item.produto.get_nome() }}"
+          style="width:80px;height:100px;object-fit:cover;"
+        />
+      </div>
+
+      <div>
+        <p class="cart-item-name">{{ item.produto.get_nome() }}</p>
+        <p class="cart-item-meta">
+          {{ item.produto.get_categoria() }} ·
+          {{ item.produto.get_cor() }} ·
+          TAM {{ item.produto.get_tamanho() }}
+        </p>
+        <p class="cart-item-meta" style="margin-top:.3rem;">Qtd: {{ item.quantidade }}</p>
+        <a href="{{ url_for('remove_carrinho', pid=item.produto.get_id()) }}"
+           class="btn btn-danger" style="margin-top:.6rem;display:inline-flex;">
+          Remover
+        </a>
+      </div>
+
+      <div class="cart-item-price">
+        <span class="cart-item-sub">R$ {{ "%.2f"|format(item.subtotal) }}</span>
+        <span class="cart-item-unit">
+          R$ {{ "%.2f"|format(item.produto.get_preco()) }} / un.
+        </span>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div style="margin-top:1.5rem;">
+      <a href="{{ url_for('index') }}" class="btn btn-ghost">← Continuar comprando</a>
+    </div>
+  </div>
+
+  <!-- RESUMO -->
+  <div class="cart-summary">
+    <h2 class="summary-title">RESUMO</h2>
+
+    {% for item in items %}
+    <div class="summary-line">
+      <span>{{ item.produto.get_nome() }} ×{{ item.quantidade }}</span>
+      <span>R$ {{ "%.2f"|format(item.subtotal) }}</span>
+    </div>
+    {% endfor %}
+
+    <div class="summary-line total">
+      <span>Total</span>
+      <span class="val">R$ {{ "%.2f"|format(total) }}</span>
+    </div>
+
+    <a href="{{ url_for('checkout') }}" class="btn btn-primary"
+       style="width:100%;justify-content:center;">
+      Finalizar compra →
+    </a>
+
+    <p style="font-family:var(--font-ui);font-size:.7rem;color:var(--muted);
+              text-align:center;letter-spacing:.08em;">
+      Pagamento seguro · Pix, Cartão, Boleto
+    </p>
+  </div>
+
+</div>
+
+{% else %}
+<div class="empty-cart">
+  <h2>CARRINHO VAZIO</h2>
+  <p style="color:var(--muted);font-family:var(--font-ui);margin-top:1rem;letter-spacing:.1em;">
+    Você ainda não adicionou nenhuma peça.
+  </p>
+  <a href="{{ url_for('index') }}" class="btn btn-primary" style="margin-top:2rem;">
+    Ver coleção →
+  </a>
+</div>
+{% endif %}
+
+{% endblock %}

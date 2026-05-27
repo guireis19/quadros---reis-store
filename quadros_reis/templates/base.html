@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}QUADROS - REIS{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="{{ url_for('index') }}" class="nav-logo">QUADROS<span>♛</span>REIS</a>
+
+    <ul class="nav-links">
+      <li><a href="{{ url_for('index') }}">Coleção</a></li>
+      <li><a href="{{ url_for('index') }}#sobre">Sobre</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      {% if cliente %}
+        <a href="{{ url_for('minha_conta') }}" class="btn-nav-outline">{{ cliente.get_nome().split()[0] }}</a>
+        <a href="{{ url_for('logout') }}" class="btn-nav-outline">Sair</a>
+      {% else %}
+        <a href="{{ url_for('login') }}" class="btn-nav-outline">Login</a>
+        <a href="{{ url_for('cadastro') }}" class="btn-nav-outline">Cadastro</a>
+      {% endif %}
+
+      <a href="{{ url_for('carrinho') }}" class="cart-btn">
+        &#9673; Carrinho
+        {% if qtd_carrinho > 0 %}
+          <span class="cart-badge">{{ qtd_carrinho }}</span>
+        {% endif %}
+      </a>
+    </div>
+  </nav>
+
+  <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container" id="flashContainer">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- CONTEÚDO -->
+  {% block content %}{% endblock %}
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">QUADROS<span>♛</span>REIS</div>
+    <ul class="footer-links">
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">TikTok</a></li>
+      <li><a href="#">Contato</a></li>
+      <li><a href="#">Trocas</a></li>
+    </ul>
+    <p class="footer-copy">© 2025 Quadros - Reis. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    // Auto-dismiss flash messages
+    setTimeout(() => {
+      const fc = document.getElementById('flashContainer');
+      if (fc) fc.style.transition = 'opacity .5s', fc.style.opacity = '0',
+        setTimeout(() => fc.remove(), 500);
+    }, 3500);
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

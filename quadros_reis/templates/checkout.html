@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Checkout | QUADROS - REIS{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1 class="page-title">FINALIZAR <span>COMPRA</span></h1>
+</div>
+
+<div class="checkout-layout">
+
+  <!-- FORM -->
+  <div class="checkout-form-side">
+    <form method="POST" action="{{ url_for('checkout') }}">
+
+      <!-- Entrega -->
+      <h3 class="form-section-title">Endereço de entrega</h3>
+
+      <div class="form-group">
+        <label class="form-label">Nome completo</label>
+        <input class="form-input" type="text" value="{{ cliente.get_nome() }}" readonly />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Endereço</label>
+        <input class="form-input" type="text" value="{{ cliente.get_endereco() }}" readonly />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">E-mail</label>
+          <input class="form-input" type="text" value="{{ cliente.get_email() }}" readonly />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefone</label>
+          <input class="form-input" type="text" value="{{ cliente.get_telefone() }}" readonly />
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Pagamento -->
+      <h3 class="form-section-title">Forma de pagamento</h3>
+
+      <div class="pagamento-options">
+        <input class="pag-option" type="radio" name="forma_pagamento"
+               id="pix" value="pix" checked />
+        <label class="pag-label" for="pix">
+          <span class="pag-icon">⚡</span> PIX
+        </label>
+
+        <input class="pag-option" type="radio" name="forma_pagamento"
+               id="cartao_credito" value="cartao_credito" />
+        <label class="pag-label" for="cartao_credito">
+          <span class="pag-icon">💳</span> Crédito
+        </label>
+
+        <input class="pag-option" type="radio" name="forma_pagamento"
+               id="cartao_debito" value="cartao_debito" />
+        <label class="pag-label" for="cartao_debito">
+          <span class="pag-icon">🏦</span> Débito
+        </label>
+
+        <input class="pag-option" type="radio" name="forma_pagamento"
+               id="boleto" value="boleto" />
+        <label class="pag-label" for="boleto">
+          <span class="pag-icon">📄</span> Boleto
+        </label>
+      </div>
+
+      <div class="divider"></div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;">
+        Confirmar pedido →
+      </button>
+
+    </form>
+  </div>
+
+  <!-- RESUMO -->
+  <div class="cart-summary">
+    <h2 class="summary-title">PEDIDO</h2>
+
+    {% for item in items %}
+    <div class="summary-line">
+      <span>{{ item.produto.get_nome() }} ×{{ item.quantidade }}</span>
+      <span>R$ {{ "%.2f"|format(item.subtotal) }}</span>
+    </div>
+    {% endfor %}
+
+    <div class="summary-line total">
+      <span>Total</span>
+      <span class="val">R$ {{ "%.2f"|format(total) }}</span>
+    </div>
+
+    <p style="font-family:var(--font-ui);font-size:.7rem;color:var(--muted);letter-spacing:.08em;line-height:1.6;">
+      Ao confirmar, você concorda com nossas políticas de entrega e troca.
+    </p>
+  </div>
+
+</div>
+
+{% endblock %}

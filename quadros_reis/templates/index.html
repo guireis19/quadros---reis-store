@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}QUADROS - REIS | Drop Atual{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Imagem de fundo real -->
+  <div class="hero-bg-img"></div>
+  <!-- Overlay escuro suave para legibilidade sem sufocar a foto -->
+  <div class="hero-overlay"></div>
+  <div class="hero-grid-lines"></div>
+
+  <div class="hero-content">
+    <p class="hero-tag">Nova coleção · 2025</p>
+    <h1 class="hero-title">
+      VISTA
+      <em>SEM PEDIR</em>
+      LICENÇA.
+    </h1>
+    <p class="hero-sub">
+      Peças construídas pra quem não passa em branco.
+      Drop limitado — sem reposição.
+    </p>
+    <div class="hero-cta">
+      <a href="#colecao" class="btn btn-primary">Ver coleção →</a>
+      {% if not cliente %}
+        <a href="{{ url_for('cadastro') }}" class="btn btn-outline">Criar conta</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Badge de marca no canto -->
+  <div class="hero-badge">
+    STREETWEAR<br>EST. MMXXIV
+  </div>
+</section>
+
+<!-- PRODUTOS -->
+<section class="section" id="colecao">
+  <div class="section-header">
+    <h2 class="section-title">DROP <span>ATUAL</span></h2>
+    <span class="section-count">{{ produtos|length }} peças disponíveis</span>
+  </div>
+
+  <div class="products-grid">
+    {% for produto in produtos %}
+
+      {% set cat = produto.get_categoria()|lower %}
+      {% set pid = produto.get_id() %}
+
+      {% if 'camiseta' in cat %}
+        {% set imagens = [
+          'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=400&h=533&fit=crop'
+        ] %}
+      {% elif 'moletom' in cat or 'hoodie' in cat %}
+        {% set imagens = [
+          'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1509942774463-acf339cf87d5?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=400&h=533&fit=crop'
+        ] %}
+      {% elif 'calça' in cat or 'calca' in cat %}
+        {% set imagens = [
+          'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1604176354204-9268737828e4?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&h=533&fit=crop'
+        ] %}
+      {% elif 'jaqueta' in cat %}
+        {% set imagens = [
+          'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1548126032-079a0fb0099d?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&h=533&fit=crop'
+        ] %}
+      {% elif 'shorts' in cat %}
+        {% set imagens = [
+          'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1560243563-062bfc001d68?w=400&h=533&fit=crop'
+        ] %}
+      {% else %}
+        {% set imagens = [
+          'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&h=533&fit=crop',
+          'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=400&h=533&fit=crop'
+        ] %}
+      {% endif %}
+
+      {% set img_url = imagens[(pid - 1) % imagens|length] %}
+
+      <a href="{{ url_for('produto_detalhe', pid=produto.get_id()) }}" class="product-card">
+        {% if produto.get_estoque() > 0 %}
+          <span class="product-tag">{{ produto.get_categoria() }}</span>
+        {% else %}
+          <span class="product-tag esgotado">Esgotado</span>
+        {% endif %}
+
+        <div class="product-img-wrap">
+          <img src="{{ img_url }}" alt="{{ produto.get_nome() }}" loading="lazy" />
+        </div>
+
+        <div class="product-info">
+          <p class="product-cat">{{ produto.get_categoria() }} · {{ produto.get_cor() }}</p>
+          <p class="product-name">{{ produto.get_nome() }}</p>
+          <div class="product-meta">
+            <span class="product-price">R$ {{ "%.2f"|format(produto.get_preco()) }}</span>
+            <span class="product-size">{{ produto.get_tamanho() }}</span>
+          </div>
+        </div>
+      </a>
+
+    {% else %}
+      <p style="padding:3rem;color:var(--muted);font-family:var(--font-ui);">Nenhum produto cadastrado.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section class="section" id="sobre" style="border-top:1px solid var(--border);">
+  <div style="max-width:680px;">
+    <p style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">
+      — Sobre a marca
+    </p>
+    <h2 class="section-title" style="margin-bottom:1.5rem;">
+      FEITO PRA <span>DURAR</span>
+    </h2>
+    <p style="font-size:1rem;color:var(--muted);line-height:1.8;max-width:520px;">
+      Quadros - Reis nasceu da rua. Cada peça é pensada pra resistir
+      ao tempo, ao olhar e ao uso. Drops limitados, nada de fast fashion.
+      Se você chegou até aqui, já sabe o que quer.
+    </p>
+  </div>
+</section>
+
+{% endblock %}

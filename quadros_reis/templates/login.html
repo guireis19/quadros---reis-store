@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Login | QUADROS - REIS{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-bg"></div>
+
+  <div class="auth-card">
+    <h1 class="auth-logo">QUADROS<span>♛</span>REIS</h1>
+    <p class="auth-subtitle">Entrar na sua conta</p>
+
+    <form method="POST" action="{{ url_for('login') }}">
+
+      <div class="form-group">
+        <label class="form-label">CPF</label>
+        <input class="form-input" type="text" name="cpf"
+               placeholder="000.000.000-00" required autofocus />
+      </div>
+
+      <button type="submit" class="btn btn-primary"
+              style="width:100%;justify-content:center;margin-top:.5rem;">
+        Entrar →
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      Não tem conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

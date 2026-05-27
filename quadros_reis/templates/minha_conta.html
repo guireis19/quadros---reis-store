@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Minha Conta | QUADROS - REIS{% endblock %}
+
+{% block content %}
+<div class="account-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="account-sidebar">
+    <div class="account-avatar">
+      {{ cliente.get_nome()[0].upper() }}
+    </div>
+    <p class="account-name">{{ cliente.get_nome() }}</p>
+    <p class="account-email">{{ cliente.get_email() }}</p>
+
+    <ul class="account-menu">
+      <li><a href="{{ url_for('minha_conta') }}" class="active">📦 Meus pedidos</a></li>
+      <li><a href="{{ url_for('index') }}">🛍 Ver coleção</a></li>
+      <li><a href="{{ url_for('logout') }}">← Sair</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="account-main">
+    <div class="page-header" style="padding:0 0 2rem;">
+      <h1 class="page-title">MEUS <span>PEDIDOS</span></h1>
+    </div>
+
+    {% if pedidos %}
+      {% for pedido in pedidos %}
+      <div class="pedido-card">
+        <div class="pedido-header">
+          <span class="pedido-num">
+            Pedido #{{ "%04d"|format(pedido.get_numero()) }}
+            <span style="color:var(--muted);font-weight:400;font-size:.8rem;margin-left:.5rem;">
+              · R$ {{ "%.2f"|format(pedido.get_total()) }}
+            </span>
+          </span>
+          <span class="pedido-status status-{{ pedido.get_status() }}">
+            {{ pedido.get_status().replace('_', ' ').upper() }}
+          </span>
+        </div>
+        <div class="pedido-body">
+          {% for roupa, qtd in pedido._itens.items() %}
+          <p style="font-family:var(--font-ui);font-size:.85rem;color:var(--muted);
+                    letter-spacing:.05em;padding:.2rem 0;border-bottom:1px solid var(--border);">
+            {{ roupa.get_nome() }}
+            <span style="color:var(--text);">×{{ qtd }}</span>
+            <span style="float:right;color:var(--accent);">
+              R$ {{ "%.2f"|format(roupa.get_preco() * qtd) }}
+            </span>
+          </p>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+
+    {% else %}
+      <div style="padding:3rem 0;text-align:center;">
+        <p style="font-family:var(--font-display);font-size:2.5rem;
+                  color:var(--border);letter-spacing:.1em;">
+          NENHUM PEDIDO
+        </p>
+        <a href="{{ url_for('index') }}" class="btn btn-primary" style="margin-top:1.5rem;">
+          Ver coleção →
+        </a>
+      </div>
+    {% endif %}
+
+    <!-- Dados do perfil -->
+    <div class="divider" style="margin-top:2.5rem;"></div>
+    <h3 class="form-section-title" style="margin-top:1.5rem;">DADOS DA CONTA</h3>
+    <div class="produto-attrs" style="max-width:520px;">
+      <div class="attr-item">
+        <span class="attr-label">CPF</span>
+        <span class="attr-value">{{ cliente.get_cpf() }}</span>
+      </div>
+      <div class="attr-item">
+        <span class="attr-label">Telefone</span>
+        <span class="attr-value">{{ cliente.get_telefone() }}</span>
+      </div>
+      <div class="attr-item" style="grid-column:1/-1;">
+        <span class="attr-label">Endereço</span>
+        <span class="attr-value">{{ cliente.get_endereco() }}</span>
+      </div>
+    </div>
+  </main>
+
+</div>
+{% endblock %}

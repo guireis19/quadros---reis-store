@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}{{ produto.get_nome() }} | QUADROS - REIS{% endblock %}
+
+{% block content %}
+
+{% set cat = produto.get_categoria()|lower %}
+{% set pid = produto.get_id() %}
+
+{% if 'camiseta' in cat %}
+  {% set imagens = [
+    'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=600&h=800&fit=crop'
+  ] %}
+{% elif 'moletom' in cat or 'hoodie' in cat %}
+  {% set imagens = [
+    'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1509942774463-acf339cf87d5?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=600&h=800&fit=crop'
+  ] %}
+{% elif 'calça' in cat or 'calca' in cat %}
+  {% set imagens = [
+    'https://images.unsplash.com/photo-1542272604-787c3835535d?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1604176354204-9268737828e4?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&h=800&fit=crop'
+  ] %}
+{% elif 'jaqueta' in cat %}
+  {% set imagens = [
+    'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1548126032-079a0fb0099d?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&h=800&fit=crop'
+  ] %}
+{% elif 'shorts' in cat %}
+  {% set imagens = [
+    'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1560243563-062bfc001d68?w=600&h=800&fit=crop'
+  ] %}
+{% else %}
+  {% set imagens = [
+    'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&h=800&fit=crop'
+  ] %}
+{% endif %}
+
+{% set img_url = imagens[(pid - 1) % imagens|length] %}
+
+<div class="produto-detail">
+
+  <!-- IMAGEM -->
+  <div class="produto-img-side">
+    <img src="{{ img_url }}" alt="{{ produto.get_nome() }}"
+         style="width:100%;max-width:460px;aspect-ratio:3/4;object-fit:cover;border:1px solid var(--border);" />
+  </div>
+
+  <!-- INFO -->
+  <div class="produto-info-side">
+    <nav class="produto-breadcrumb">
+      <a href="{{ url_for('index') }}">Coleção</a>
+      <span>/</span>
+      <span>{{ produto.get_categoria() }}</span>
+      <span>/</span>
+      <span style="color:var(--text);">{{ produto.get_nome() }}</span>
+    </nav>
+
+    <div>
+      <h1 class="produto-title">{{ produto.get_nome() }}</h1>
+      <p class="produto-price-big" style="margin-top:.8rem;">
+        R$ {{ "%.2f"|format(produto.get_preco()) }}
+      </p>
+    </div>
+
+    <p class="produto-desc">{{ produto.get_descricao() if produto.get_descricao() else "Sem descrição." }}</p>
+
+    <div class="produto-attrs">
+      <div class="attr-item">
+        <span class="attr-label">Categoria</span>
+        <span class="attr-value">{{ produto.get_categoria() }}</span>
+      </div>
+      <div class="attr-item">
+        <span class="attr-label">Cor</span>
+        <span class="attr-value">{{ produto.get_cor() }}</span>
+      </div>
+      <div class="attr-item">
+        <span class="attr-label">Tamanho</span>
+        <span class="attr-value">{{ produto.get_tamanho() }}</span>
+      </div>
+      <div class="attr-item">
+        <span class="attr-label">Estoque</span>
+        <span class="attr-value">
+          {% if produto.get_estoque() > 0 %}
+            {{ produto.get_estoque() }} unid.
+          {% else %}
+            <span class="text-accent">Esgotado</span>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+
+    {% if produto.get_estoque() > 0 %}
+      <form action="{{ url_for('add_carrinho', pid=produto.get_id()) }}" method="POST">
+        <div class="qty-row" style="margin-bottom:1.2rem;">
+          <span class="qty-label">Qtd</span>
+          <input class="qty-input" type="number" name="quantidade"
+                 value="1" min="1" max="{{ produto.get_estoque() }}" />
+        </div>
+        <button type="submit" class="btn btn-primary"
+                style="width:100%;justify-content:center;">
+          Adicionar ao carrinho →
+        </button>
+      </form>
+    {% else %}
+      <button class="btn btn-outline" disabled
+              style="width:100%;justify-content:center;opacity:.4;cursor:not-allowed;">
+        Produto esgotado
+      </button>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="btn btn-ghost"
+       style="width:100%;justify-content:center;">
+      ← Voltar à coleção
+    </a>
+  </div>
+
+</div>
+{% endblock %}

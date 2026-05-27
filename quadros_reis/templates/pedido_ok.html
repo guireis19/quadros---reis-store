@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Pedido Confirmado | QUADROS - REIS{% endblock %}
+
+{% block content %}
+<div class="success-page">
+  <div class="success-icon">♛</div>
+
+  <h1 class="success-title">
+    PEDIDO<br><span>CONFIRMADO</span>
+  </h1>
+
+  {% if pedido %}
+    <p class="success-sub">
+      Pedido #{{ "%04d"|format(pedido.get_numero()) }} •
+      R$ {{ "%.2f"|format(pedido.get_total()) }}
+    </p>
+    <p style="font-family:var(--font-ui);font-size:.8rem;color:var(--muted);letter-spacing:.12em;">
+      Em breve você receberá as informações de envio.
+    </p>
+  {% endif %}
+
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:1rem;">
+    <a href="{{ url_for('minha_conta') }}" class="btn btn-outline">Minha conta</a>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Continuar comprando →</a>
+  </div>
+</div>
+{% endblock %}

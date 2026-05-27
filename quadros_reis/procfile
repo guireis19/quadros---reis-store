@@ -1,0 +1,1 @@
+web: cd quadros_reis && python app.py

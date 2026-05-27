@@ -1,1 +1,1 @@
-web: cd quadros_reis && gunicorn app:app
+web: gunicorn --chdir quadros_reis app:app

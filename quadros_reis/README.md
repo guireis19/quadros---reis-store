@@ -1,16 +1,14 @@
 # QUADROS - REIS | Loja Online de Roupas
 
-Sistema web completo com Flask (backend Python) + HTML/CSS streetwear.
-
 ## Estrutura do projeto
 
 ```
 quadros_reis/
 ├── app.py                    # Flask — rotas e lógica
-├── quadros_reis_models.py    # Classes Python (OOP)
+├── quadros_reis_models.py    # Classes Python
 ├── requirements.txt
 ├── templates/
-│   ├── base.html             # Layout base (navbar, footer, flash)
+│   ├── base.html             # Layout base
 │   ├── index.html            # Página inicial + grid de produtos
 │   ├── produto.html          # Detalhe do produto
 │   ├── carrinho.html         # Carrinho de compras
@@ -21,7 +19,7 @@ quadros_reis/
 │   └── minha_conta.html      # Histórico e dados do cliente
 └── static/
     └── css/
-        └── style.css         # CSS completo (tema streetwear escuro)
+        └── style.css         # CSS completo
 ```
 
 ## Como rodar
@@ -50,10 +48,3 @@ http://localhost:5000
 5. No checkout → escolha a forma de pagamento e confirme
 6. Pedido confirmado → veja o histórico em "Minha Conta"
 
-## Próximos passos sugeridos
-
-- [ ] Banco de dados real (SQLite com SQLAlchemy)
-- [ ] Upload de imagens dos produtos
-- [ ] Painel admin para cadastro de produtos pela interface
-- [ ] Integração com gateway de pagamento (Mercado Pago, Stripe)
-- [ ] Sistema de CEP / frete

@@ -5,7 +5,6 @@
   Classes:
     - Pessoa (base)
       - Cliente (herda Pessoa)
-      - Funcionario (herda Pessoa)
     - Produto (base)
       - Roupa (herda Produto)
     - Pedido
@@ -30,7 +29,6 @@ class Pessoa:
         self._email: str = email
         self._telefone: str = telefone
 
-    # Getters
     def get_nome(self) -> str:
         return self._nome
 
@@ -43,14 +41,12 @@ class Pessoa:
     def get_telefone(self) -> str:
         return self._telefone
 
-    # Setters
     def set_email(self, email: str) -> None:
         self._email = email
 
     def set_telefone(self, telefone: str) -> None:
         self._telefone = telefone
 
-    # Polimorfismo: sobrescrito nas subclasses
     def apresentar(self) -> str:
         return f"Pessoa: {self._nome} | CPF: {self._cpf}"
 
@@ -62,7 +58,6 @@ class Pessoa:
 # SUBCLASSE: Cliente (herda Pessoa)
 # ─────────────────────────────────────────────
 class Cliente(Pessoa):
-    """Representa um cliente da loja."""
 
     def __init__(self, nome: str, cpf: str, email: str,
                  telefone: str, endereco: str):
@@ -92,40 +87,9 @@ class Cliente(Pessoa):
 
 
 # ─────────────────────────────────────────────
-# SUBCLASSE: Funcionario (herda Pessoa)
-# ─────────────────────────────────────────────
-class Funcionario(Pessoa):
-    """Representa um funcionário da loja."""
-
-    def __init__(self, nome: str, cpf: str, email: str,
-                 telefone: str, cargo: str, salario: float):
-        super().__init__(nome, cpf, email, telefone)
-        self._cargo: str = cargo
-        self._salario: float = salario
-
-    def get_cargo(self) -> str:
-        return self._cargo
-
-    def get_salario(self) -> float:
-        return self._salario
-
-    def set_salario(self, salario: float) -> None:
-        self._salario = salario
-
-    # Polimorfismo: sobrescreve Pessoa.apresentar()
-    def apresentar(self) -> str:
-        return (f"[FUNCIONÁRIO] {self._nome} | Cargo: {self._cargo} "
-                f"| Salário: R$ {self._salario:.2f}")
-
-    def __str__(self) -> str:
-        return self.apresentar()
-
-
-# ─────────────────────────────────────────────
 # CLASSE BASE: Produto
 # ─────────────────────────────────────────────
 class Produto:
-    """Classe base para produtos da loja."""
 
     _contador_id: int = 0
 
@@ -165,7 +129,6 @@ class Produto:
     def repor_estoque(self, quantidade: int) -> None:
         self._estoque += quantidade
 
-    # Polimorfismo: sobrescrito em Roupa
     def exibir_detalhes(self) -> str:
         return (f"[ID:{self._id}] {self._nome} | "
                 f"R$ {self._preco:.2f} | Estoque: {self._estoque}")
@@ -178,7 +141,6 @@ class Produto:
 # SUBCLASSE: Roupa (herda Produto)
 # ─────────────────────────────────────────────
 class Roupa(Produto):
-    """Representa uma peça de roupa."""
 
     TAMANHOS_VALIDOS = ["PP", "P", "M", "G", "GG", "XGG"]
 
@@ -198,7 +160,6 @@ class Roupa(Produto):
     def get_categoria(self) -> str:
         return self._categoria
 
-    # Polimorfismo: sobrescreve Produto.exibir_detalhes()
     def exibir_detalhes(self) -> str:
         return (f"[ID:{self._id}] {self._nome} ({self._categoria}) | "
                 f"Cor: {self._cor} | Tam: {self._tamanho} | "
@@ -212,7 +173,6 @@ class Roupa(Produto):
 # CLASSE: CarrinhoDeCompras
 # ─────────────────────────────────────────────
 class CarrinhoDeCompras:
-    """Carrinho de compras associado a um cliente."""
 
     def __init__(self, cliente: Cliente):
         self._cliente: Cliente = cliente
@@ -268,7 +228,6 @@ class CarrinhoDeCompras:
 # CLASSE: Pagamento
 # ─────────────────────────────────────────────
 class Pagamento:
-    """Registra o pagamento de um pedido."""
 
     FORMAS_VALIDAS = ["pix", "cartao_credito", "cartao_debito", "boleto"]
 
@@ -309,7 +268,6 @@ class Pagamento:
 # CLASSE: Pedido
 # ─────────────────────────────────────────────
 class Pedido:
-    """Pedido gerado a partir de um carrinho."""
 
     _contador_pedido: int = 0
 

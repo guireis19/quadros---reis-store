@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
-from quadros_reis_models import Cliente, Funcionario, Roupa, CarrinhoDeCompras, Pagamento, Pedido
+from quadros_reis_models import Cliente, Roupa, CarrinhoDeCompras, Pagamento, Pedido
 import json
 
 app = Flask(__name__)
@@ -7,7 +7,6 @@ app.secret_key = "quadros_reis_secret_2025"
 
 # ── Banco de dados em memória ──────────────────────────
 clientes: list[Cliente]     = []
-funcionarios: list[Funcionario] = []
 produtos: list[Roupa]       = []
 
 # Dados de demonstração
